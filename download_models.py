@@ -7,13 +7,13 @@ def download_models():
 
     # File IDs from Google Drive links
     files = {
-        'similarity.pkl': '1m56z22O6Lv7N6t-lNnKw29-gq33_pd4l?usp=sharing',  # Replace with your file ID
-        'movies_dict.pkl': '1m56z22O6Lv7N6t-lNnKw29-gq33_pd4l?usp=sharing'  # Replace with your file ID
+        'similarity.pkl': '1J1tLJ9-DXmAA7my9wpq6F-AKg-sKsZQ_',  # Replace with your file ID
+        'movies_dict.pkl': '1iLa6zxc06PjB5iJuJV_KCvi48akA8IWe'  # Replace with your file ID
     }
 
     for filename, file_id in files.items():
         print(f"Downloading {filename}...")
-        url = f'https://drive.google.com/drive/folders/{file_id}'
+        url = f'https://drive.google.com/uc?id={file_id}'
         output = f'models/{filename}'
         gdown.download(url, output, quiet=False)
 
