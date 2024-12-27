@@ -1,22 +1,22 @@
-import gdown
+import requests
 import os
 
-def download_models():
-    # Create models directory if it doesn't exist
-    os.makedirs('models', exist_ok=True)
+def download_file(url, save_path):
+    if not os.path.exists(save_path):
+        print(f"Downloading {save_path}...")
+        response = requests.get(url, stream=True)
+        response.raise_for_status()
+        with open(save_path, 'wb') as f:
+            for chunk in response.iter_content(chunk_size=8192):
+                f.write(chunk)
+        print(f"Downloaded {save_path}")
 
-    # File IDs from Google Drive links
-    files = {
-        'similarity.pkl': '1J1tLJ9-DXmAA7my9wpq6F-AKg-sKsZQ_',  # Replace with your file ID
-        'movies_dict.pkl': '1iLa6zxc06PjB5iJuJV_KCvi48akA8IWe'  # Replace with your file ID
-    }
+# Provide the URL for your file
+url = "https://your-cloud-link/similarity.pkl"
+save_path = "models/similarity.pkl"
 
-    for filename, file_id in files.items():
-        print(f"Downloading {filename}...")
-        url = f'https://drive.google.com/uc?id={file_id}'
-        output = f'models/{filename}'
-        gdown.download(url, output, quiet=False)
+# Ensure models directory exists
+os.makedirs("models", exist_ok=True)
 
-
-if __name__ == "__main__":
-    download_models()
+# Download the file
+download_file(url, save_path)
