@@ -138,4 +138,4 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## Contact
 
-For any queries or suggestions, please reach out to [Your Name/Email]
+For any queries or suggestions, please reach out to Siddharth Bhople at sid.work0403@gmail.com
