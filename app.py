@@ -33,9 +33,9 @@ st.markdown("""
 # Load the saved model and data
 def load_model_and_data():
     try:
-        movies_dict = pickle.load(open('movies_dict.pkl', 'rb'))
+        movies_dict = pickle.load(open('models/movies_dict.pkl', 'rb'))
         movies = pd.DataFrame(movies_dict)
-        similarity = pickle.load(open('similarity.pkl', 'rb'))
+        similarity = pickle.load(open('models/similarity.pkl', 'rb'))
         return movies, similarity
     except Exception as e:
         st.error(f"Error loading models: {str(e)}")
