@@ -79,7 +79,6 @@ def main():
     st.title("🎬 Movie Recommender System")
 
     try:
-        subprocess.run(["python", "download_models.py"], check=True)
         movies, similarity = load_model_and_data()
     except Exception as e:
         st.error("Error loading model and data. Please check if the required files exist.")
@@ -120,4 +119,5 @@ def main():
 
 
 if __name__ == '__main__':
+    subprocess.run(["python", "download_models.py"], check=True)
     main()
