@@ -32,15 +32,11 @@ st.markdown("""
 
 # Load the saved model and data
 def load_model_and_data():
-    try:
-        movies_dict = pickle.load(open('./models/movies_dict.pkl', 'rb'))
-        movies = pd.DataFrame(movies_dict)
-        similarity = pickle.load(open('./models/similarity.pkl', 'rb'))
-        return movies, similarity
-    except Exception as e:
-        st.error(f"Error loading models: {str(e)}")
-        st.info("Please make sure to run download_models.py first")
-        st.stop()
+    with open("models/similarity.pkl", "rb") as f:
+        similarity = pickle.load(f)
+
+    with open("models/movies_dict.pkl", "rb") as f:
+        movies_dict = pickle.load(f)
 
 
 # Function to fetch movie poster
