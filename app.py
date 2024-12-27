@@ -2,7 +2,6 @@ import streamlit as st
 import pandas as pd
 import pickle
 import requests
-import subprocess
 from PIL import Image
 import io
 
@@ -119,5 +118,4 @@ def main():
 
 
 if __name__ == '__main__':
-    subprocess.run(["python", "download_models.py"], check=True)
     main()
