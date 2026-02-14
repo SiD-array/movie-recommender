@@ -33,9 +33,6 @@ ENV/
 *.swo
 .cursor/
 
-# Project specific - Model files (downloaded via script)
-models/*.pkl
-
 # Environment and Secrets - NEVER COMMIT THESE
 .env
 .env.local
