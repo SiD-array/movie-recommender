@@ -24,17 +24,25 @@ wheels/
 # Virtual Environment
 venv/
 ENV/
+.venv/
 
 # IDE specific files
 .idea/
 .vscode/
 *.swp
 *.swo
+.cursor/
 
-# Project specific
-*.pkl
+# Project specific - Model files (downloaded via script)
+models/*.pkl
+
+# Environment and Secrets - NEVER COMMIT THESE
 .env
+.env.local
+.env.*.local
+.streamlit/secrets.toml
 
 # OS specific
 .DS_Store
 Thumbs.db
+Desktop.ini

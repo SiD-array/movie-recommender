@@ -1,126 +1,144 @@
-# Movie Recommender System 🎬
+# CineMatch - Movie Recommender System
 
-A content-based movie recommendation system that suggests similar movies based on the user's selection. The system analyzes movie features such as genres, cast, crew, and plot keywords to make personalized recommendations.
+A content-based movie recommendation system that suggests similar movies based on your selection. Built with Python and Streamlit, featuring a modern Netflix-inspired UI and an optimized TF-IDF algorithm.
 
-## Setup
-1. Clone the repository
-2. Install requirements: `pip install -r requirements.txt`
-3. Run `python download_models.py` to download the required model files
-4. Run the application: `streamlit run app.py`
+![Python](https://img.shields.io/badge/Python-3.9+-blue?logo=python&logoColor=white)
+![Streamlit](https://img.shields.io/badge/Streamlit-1.28+-red?logo=streamlit&logoColor=white)
+![scikit--learn](https://img.shields.io/badge/scikit--learn-1.3+-orange?logo=scikit-learn&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-green)
 
 ## Features
 
-- **Content-Based Filtering**: Uses movie metadata to find similar movies
-- **Interactive UI**: Clean and user-friendly interface built with Streamlit
-- **Real-time Recommendations**: Get instant movie suggestions with movie posters
-- **TMDB Integration**: Fetches movie posters and additional information from The Movie Database (TMDB)
+- **Content-Based Filtering** - Analyzes movie metadata (genres, cast, crew, keywords, plot)
+- **TF-IDF Algorithm** - Optimized vectorization with bigram support for better recommendations
+- **Modern UI** - Netflix-inspired dark theme with smooth animations
+- **Fast Performance** - Cached model loading and API responses
+- **Secure** - API keys stored in secrets, not in code
 
-## Tech Stack
+## Quick Start
 
-- **Backend**: Python, scikit-learn
-- **Frontend**: Streamlit
-- **Data Processing**: Pandas, NumPy
-- **API Integration**: TMDB API
-- **Data Source**: TMDB 5000 Movie Dataset
+### Prerequisites
+
+- Python 3.9+
+- TMDB API Key ([Get one free](https://www.themoviedb.org/settings/api))
+
+### Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/SiD-array/movie-recommender.git
+cd movie-recommender
+
+# Create virtual environment (recommended)
+python -m venv venv
+venv\Scripts\activate  # Windows
+# source venv/bin/activate  # macOS/Linux
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Download model files
+python download_models.py
+
+# Configure API key
+copy .streamlit\secrets.toml.example .streamlit\secrets.toml
+# Edit secrets.toml and add your TMDB API key
+
+# Run the app
+streamlit run app.py
+```
+
+Open http://localhost:8501 in your browser.
 
 ## Project Structure
 
 ```
-movie_recommender/
-│
-├── data/
-│   ├── movies_dict.pkl        # Processed movie data
-│   └── similarity.pkl         # Similarity matrix
-│
-├── notebooks/
-│   └── model_development.ipynb    # Data processing and model development
-│
-├── app.py                     # Streamlit frontend application
-├── requirements.txt           # Project dependencies
-└── README.md                 # Project documentation
+movie-recommender/
+├── .streamlit/
+│   ├── config.toml           # Streamlit theme & server config
+│   └── secrets.toml.example  # API key template
+├── models/
+│   ├── movies_dict.pkl       # Processed movie data (4806 movies)
+│   └── similarity.pkl        # TF-IDF similarity matrix
+├── app.py                    # Main Streamlit application
+├── build_improved_model.py   # Script to rebuild/improve the model
+├── download_models.py        # Script to download model files
+├── requirements.txt          # Python dependencies
+└── README.md
 ```
 
-## Installation
+## Algorithm
 
-1. Clone the repository:
+### How It Works
+
+The system uses **Content-Based Filtering** with **TF-IDF Vectorization**:
+
+```
+Movie Features → Text Preprocessing → TF-IDF Vectorization → Cosine Similarity → Recommendations
+```
+
+### TF-IDF (Term Frequency-Inverse Document Frequency)
+
+Unlike simple word counting, TF-IDF weighs words by their importance:
+
+| Word Type | Example | Weight |
+|-----------|---------|--------|
+| Rare (discriminative) | "christophernolan", "pixar" | **High** |
+| Common (generic) | "action", "movie", "story" | **Low** |
+
+**Formula:**
+```
+weight = log(1 + term_frequency) × log(total_documents / documents_containing_term)
+```
+
+### Features Used
+
+- **Genres** - Action, Comedy, Drama, etc.
+- **Keywords** - Plot-specific tags
+- **Cast** - Top actors
+- **Crew** - Director
+- **Overview** - Plot summary
+
+### Key Optimizations
+
+| Feature | Benefit |
+|---------|---------|
+| **Bigrams** | Captures phrases like "science fiction" as single features |
+| **Sublinear TF** | Diminishing returns for repeated words |
+| **Document Frequency Limits** | Filters out typos and overly common words |
+
+## Deployment (Streamlit Cloud)
+
+1. Push code to GitHub (model files excluded via `.gitignore`)
+2. Go to [share.streamlit.io](https://share.streamlit.io)
+3. Connect your repository and deploy
+4. Add `TMDB_API_KEY` in **Settings → Secrets**:
+   ```toml
+   TMDB_API_KEY = "your_api_key_here"
+   ```
+
+## Tech Stack
+
+| Component | Technology |
+|-----------|------------|
+| Frontend | Streamlit |
+| ML/NLP | scikit-learn (TF-IDF, Cosine Similarity) |
+| Data | Pandas, NumPy |
+| API | TMDB API |
+| Dataset | TMDB 5000 Movie Dataset |
+
+## Rebuilding the Model
+
+To rebuild or customize the recommendation model:
+
 ```bash
-git clone <repository-url>
-cd movie-recommender
+python build_improved_model.py
 ```
 
-2. Create and activate a virtual environment (optional but recommended):
-```bash
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-```
-
-3. Install the required dependencies:
-```bash
-pip install -r requirements.txt
-```
-
-4. Get TMDB API Key:
-- Visit [TMDB website](https://www.themoviedb.org/)
-- Create an account and request an API key
-- Replace `your_tmdb_api_key_here` in `app.py` with your actual API key
-
-## Usage
-
-1. Start the Streamlit application:
-```bash
-streamlit run app.py
-```
-
-2. Open your web browser and navigate to the provided local URL (typically `http://localhost:8501`)
-
-3. Select a movie from the dropdown menu
-
-4. Click "Get Recommendations" to see similar movies
-
-## How It Works
-
-### Data Processing
-1. Extracts relevant features from TMDB dataset including:
-   - Genres
-   - Keywords
-   - Cast
-   - Crew
-   - Overview
-
-2. Creates tags by combining these features
-
-3. Applies text preprocessing:
-   - Removes stopwords
-   - Applies stemming
-   - Handles whitespace issues
-
-### Model
-1. Uses Count Vectorization (Bag of Words) to convert text data into numerical vectors
-2. Creates a similarity matrix using cosine similarity
-3. Recommends movies based on similarity scores
-
-## API Integration
-
-The system integrates with TMDB API to fetch:
-- Movie posters
-- Additional movie information
-- Real-time data updates
-
-## Performance Considerations
-
-- The model uses the top 5000 most frequent words for vectorization
-- Similarity calculations are optimized using scikit-learn's implementations
-- Movie posters are cached to improve loading times
-
-## Future Improvements
-
-Potential enhancements for the project:
-1. Add collaborative filtering
-2. Implement user authentication
-3. Add movie ratings and reviews
-4. Include movie trailers
-5. Add advanced filtering options
-6. Implement a rating prediction system
+This script allows you to adjust:
+- `max_features` - Vocabulary size
+- `ngram_range` - Unigrams, bigrams, etc.
+- `min_df` / `max_df` - Document frequency thresholds
 
 ## Contributing
 
@@ -128,14 +146,16 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+MIT License - see [LICENSE](LICENSE) for details.
 
 ## Acknowledgments
 
-- TMDB for providing the movie dataset and API
-- Streamlit for the awesome framework
-- scikit-learn for machine learning tools
+- [TMDB](https://www.themoviedb.org/) for the movie database and API
+- [Streamlit](https://streamlit.io/) for the web framework
+- [scikit-learn](https://scikit-learn.org/) for ML tools
 
 ## Contact
 
-For any queries or suggestions, please reach out to Siddharth Bhople at sid.work0403@gmail.com
+**Siddharth Bhople** - sid.work0403@gmail.com
+
+Project: [github.com/SiD-array/movie-recommender](https://github.com/SiD-array/movie-recommender)
