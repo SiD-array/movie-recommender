@@ -2,10 +2,12 @@
 
 A content-based movie recommendation system that suggests similar movies based on your selection. Built with Python and Streamlit, featuring a modern Netflix-inspired UI and an optimized TF-IDF algorithm.
 
+### [🎬 Try the Live Demo →](https://cinematch-movie-recommend.streamlit.app/)
+
 ![Python](https://img.shields.io/badge/Python-3.9+-blue?logo=python&logoColor=white)
 ![Streamlit](https://img.shields.io/badge/Streamlit-1.28+-red?logo=streamlit&logoColor=white)
 ![scikit--learn](https://img.shields.io/badge/scikit--learn-1.3+-orange?logo=scikit-learn&logoColor=white)
-![License](https://img.shields.io/badge/License-MIT-green)
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://cinematch-movie-recommend.streamlit.app/)
 
 ## Features
 
@@ -15,7 +17,13 @@ A content-based movie recommendation system that suggests similar movies based o
 - **Fast Performance** - Cached model loading and API responses
 - **Secure** - API keys stored in secrets, not in code
 
-## Quick Start
+## Demo
+
+🔗 **Live App:** [cinematch-movie-recommend.streamlit.app](https://cinematch-movie-recommend.streamlit.app/)
+
+Select any movie from the database of 4,800+ films and get instant recommendations!
+
+## Run Locally
 
 ### Prerequisites
 
@@ -37,9 +45,6 @@ venv\Scripts\activate  # Windows
 # Install dependencies
 pip install -r requirements.txt
 
-# Download model files
-python download_models.py
-
 # Configure API key
 copy .streamlit\secrets.toml.example .streamlit\secrets.toml
 # Edit secrets.toml and add your TMDB API key
@@ -59,7 +64,7 @@ movie-recommender/
 │   └── secrets.toml.example  # API key template
 ├── models/
 │   ├── movies_dict.pkl       # Processed movie data (4806 movies)
-│   └── similarity.pkl        # TF-IDF similarity matrix
+│   └── similarity.pkl        # TF-IDF similarity matrix (Git LFS)
 ├── app.py                    # Main Streamlit application
 ├── build_improved_model.py   # Script to rebuild/improve the model
 ├── download_models.py        # Script to download model files
@@ -106,16 +111,6 @@ weight = log(1 + term_frequency) × log(total_documents / documents_containing_t
 | **Bigrams** | Captures phrases like "science fiction" as single features |
 | **Sublinear TF** | Diminishing returns for repeated words |
 | **Document Frequency Limits** | Filters out typos and overly common words |
-
-## Deployment (Streamlit Cloud)
-
-1. Push code to GitHub (model files excluded via `.gitignore`)
-2. Go to [share.streamlit.io](https://share.streamlit.io)
-3. Connect your repository and deploy
-4. Add `TMDB_API_KEY` in **Settings → Secrets**:
-   ```toml
-   TMDB_API_KEY = "your_api_key_here"
-   ```
 
 ## Tech Stack
 
